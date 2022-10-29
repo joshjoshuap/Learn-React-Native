@@ -1,40 +1,46 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
+import TodoInput from "./components/TodoInput";
+import TodoItem from "./components/TodoItem";
 
 export default function App() {
-  const [newTodo, setNewTodo] = useState("");
   const [todoLists, setTodoLists] = useState([]);
 
-  const todoInputHandler = (inputTodo) => {
-    setNewTodo(inputTodo);
+  const addTodoHandler = (newTodo) => {
+    // get the previous array items and add the new item with unique key
+    setTodoLists((currentTodoLists) => [
+      ...currentTodoLists,
+      { todo: newTodo, id: Math.random().toString() },
+    ]);
   };
 
-  const addTodoHandler = () => {
-    // get the previous array items and add the new item
-    setTodoLists((currentTodoLists) => [...currentTodoLists, newTodo]);
+  const deleteTodoHandler = (id) => {
+    setTodoLists((currentTodoLists) => {
+      return currentTodoLists.filter((todo) => todo.id !== id);
+    });
+    console.log("Delete");
   };
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.todoInput}
-          onChangeText={todoInputHandler}
-          placeholder="Input your Todo"
-        />
-        <Button
-          style={styles.buttonSubmit}
-          onPress={addTodoHandler}
-          title="Add Todo"
-        />
-      </View>
+      <TodoInput onAddTodo={addTodoHandler} />
+      {/* This view are only can scroll*/}
       <View style={styles.listContainer}>
-        {/* Loop Todo Lists Array */}
-        {todoLists.map((todoItem) => (
-          <View style={styles.todoItem} key={todoItem}>
-            <Text style={styles.todoText}>{todoItem}</Text>
-          </View>
-        ))}
+        <FlatList
+          data={todoLists} // Get the array of todoLists and loop
+          renderItem={(itemData) => {
+            return (
+              <TodoItem
+                text={itemData.item.text}
+                id={itemData.item.id}
+                onDeleteTodo={deleteTodoHandler}
+              />
+            ); // pass props
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+        />
       </View>
     </View>
   );
@@ -46,40 +52,7 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     paddingHorizontal: 20,
   },
-  todoInput: {
-    flex: 1,
-    width: "70%",
-    fontSize: 20,
-    borderWidth: 3,
-    borderColor: "#f1f3f5",
-    padding: 5,
-    marginRight: 8,
-  },
-  formContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: "black",
-    paddingBottom: 20,
-    marginVertical: 20,
-  },
   listContainer: {
     flex: 3,
   },
-  titleHeading: {
-    fontSize: 24,
-    textAlign: "center",
-  },
-  todoItem: {
-    backgroundColor: "#339af0",
-    borderRadius: 8,
-    padding: 10,
-    marginVertical: 5,
-  },
-  todoText: {
-    fontSize: 16,
-    color: 'white'
-  }
 });
