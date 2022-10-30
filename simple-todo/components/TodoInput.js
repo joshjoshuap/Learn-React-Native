@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View, TextInput, Button } from "react-native";
 
 const TodoInput = (props) => {
-  const [newTodo, setNewTodo] = useState("");
+  const [newTodo, setNewTodo] = useState();
 
   const todoInputHandler = (newTodo) => {
     setNewTodo(newTodo);

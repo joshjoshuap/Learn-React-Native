@@ -31,7 +31,7 @@ export default function App() {
           renderItem={(itemData) => {
             return (
               <TodoItem
-                text={itemData.item.text}
+                text={itemData.item.todo}
                 id={itemData.item.id}
                 onDeleteTodo={deleteTodoHandler}
               />
