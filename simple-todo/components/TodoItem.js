@@ -2,7 +2,10 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 
 const TodoItem = (props) => {
   return (
-    <Pressable onPress={props.onDeleteTodo.bind(this, props.id)}>
+    <Pressable
+      android_ripple={{ color: "#0b7285" }}
+      onPress={props.onDeleteTodo.bind(this, props.id)}
+    >
       <View style={styles.todoItem}>
         <Text style={styles.todoText}>{props.text}</Text>
       </View>
