@@ -1,25 +1,38 @@
-import { StyleSheet, View, ImageBackground } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, ImageBackground, SafeAreaView } from "react-native";
 import StartGameScreen from "./screens/StartGameScreen";
+import GameScreen from "./screens/GameScreen";
 
 export default function App() {
+  const [userNumber, setUserNumber] = useState(null);
+
+  const pickedNumberHandler = (pickedNumberHandler) => {
+    setUserNumber(pickedNumberHandler);
+  };
+
+  let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
+
+  if (userNumber) {
+    screen = <GameScreen userNumber={userNumber} />;
+  }
+
   return (
-    <View style={styles.appBackground}>
+    <View style={styles.rootScreen}>
       <ImageBackground
         source={require("./assets/images/dice-background.jpg")}
         style={styles.imageBackground}
         resizeMode="cover"
         imageStyle={styles.backgroundImageTransparent}
       >
-        <StartGameScreen />
+        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  appBackground: {
+  rootScreen: {
     flex: 1,
-    backgroundColor: "#d0ebff",
   },
   imageBackground: {
     flex: 1,
