@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, View, TextInput, Alert } from "react-native";
+import { StyleSheet, View, TextInput, Alert, Text } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
+import Title from "../components/ui/Title";
 import Colors from "../util/color";
 
 const StartGameScreen = (props) => {
@@ -27,22 +28,26 @@ const StartGameScreen = (props) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={enteredNumber}
-        onChangeText={numberInputHandler}
-      />
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={resetInputHandler}> Reset </PrimaryButton>
-        </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={confirmInputHandler}> Confirm </PrimaryButton>
+    <View style={styles.rootContainer}>
+      <Title> Guess My Number </Title>
+      <View style={styles.inputContainer}>
+        <Text style={styles.inputTitle}> Enter Number to Guess </Text>
+        <TextInput
+          style={styles.numberInput}
+          maxLength={2}
+          keyboardType="number-pad"
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={enteredNumber}
+          onChangeText={numberInputHandler}
+        />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={resetInputHandler}> Reset </PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+          </View>
         </View>
       </View>
     </View>
@@ -52,19 +57,28 @@ const StartGameScreen = (props) => {
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    marginTop: 100,
+    alignItems: "center",
+  },
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.blue,
     borderRadius: 10,
     marginHorizontal: 20,
-    marginTop: 100,
+    marginTop: 50,
     padding: 20,
     elevation: 10,
     shadowColor: "black",
     shadowOffset: { width: 2, height: 3 },
     shadowRadius: 6,
     shadowOpacity: 1,
+  },
+  inputTitle: {
+    fontSize: 20,
+    color: "white",
   },
   buttonsContainer: {
     flexDirection: "row",

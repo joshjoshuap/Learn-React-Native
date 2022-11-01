@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
 import NumberContainer from "../components/game/NumberContainer";
+import Card from "../components/ui/Card";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
+import { Ionicons } from "@expo/vector-icons";
 
 // exclude - exclude the current guess/user guess
 const generateRandomBetween = (min, max, exclude) => {
@@ -20,12 +22,14 @@ let minNumber = 1;
 let maxNumber = 100;
 
 const GameScreen = (props) => {
-  const guessNumber = generateRandomBetween(
-    minNumber,
-    maxNumber,
-    props.userNumber
-  );
+  const guessNumber = generateRandomBetween(1, 100, props.userNumber);
   const [currentGuess, setCurrentGuess] = useState(guessNumber);
+
+  useEffect(() => {
+    if (currentGuess === props.userNumber) {
+      props.onGameOver();
+    }
+  }, [currentGuess, props.userNumber, props.onGameOver]);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -56,15 +60,23 @@ const GameScreen = (props) => {
       <Title> Guess Opponent </Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
-        <Text>Higher or Lower</Text>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
-            +
-          </PrimaryButton>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-            -
-          </PrimaryButton>
-        </View>
+        <Card>
+          <Text style={styles.textTitle}>Higher or Lower</Text>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+              <Ionicons
+                name="md-remove"
+                size={20}
+              />
+            </PrimaryButton>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
+              <Ionicons
+                name="md-add"
+                size={20}
+              />
+            </PrimaryButton>
+          </View>
+        </Card>
       </View>
       <View>
         <Text>Log Rounds</Text>
@@ -83,5 +95,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
+  },
+  textTitle: {
+    fontSize: 20,
+    color: "white",
   },
 });
