@@ -11,14 +11,14 @@ export default function App() {
   const [gameIsOver, setGameIsOver] = useState(true);
   const [guessRound, setGuesssRounds] = useState(0);
 
-  // const [fontsLoaded] = useFonts({
-  //   "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-  //   "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-  // });
+  const [fontsLoaded] = useFonts({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
 
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   const pickedNumberHandler = (pickedNumberHandler) => {
     setUserNumber(pickedNumberHandler);
