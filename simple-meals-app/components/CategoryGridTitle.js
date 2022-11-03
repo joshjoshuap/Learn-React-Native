@@ -6,6 +6,7 @@ const CategoryGridTitle = (props) => {
       <Pressable
         android_ripple={{ color: "#dee2e6" }}
         style={styles.button}
+        onPress={props.onPress}
       >
         <View style={styles.innerContainer}>
           <Text style={styles.title}>{props.title}</Text>
